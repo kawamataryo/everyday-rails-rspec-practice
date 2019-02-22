@@ -26,3 +26,5 @@
 /public/system
 
 .ruby-version
+/everydayrails-rspec-2017.iml
+/.idea
