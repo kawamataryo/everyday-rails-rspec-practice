@@ -1,15 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) do
-    User.new(
-      first_name: "ryo",
-      last_name: "kawamata",
-      email: "hoge@hoge.com",
-      password: "123456"
-    )
-  end
+  let(:user) { FactoryBot.create(:user) }
 
+  it '有効なファクトリを持つこと' do
+    expect(FactoryBot.build(:user)).to be_valid
+  end
   it '姓、名、メールアドレス、パスワードがあれば有効な状態であること' do
     expect(user).to be_valid
   end
@@ -32,16 +28,10 @@ RSpec.describe User, type: :model do
     expect(user.errors[:email]).to include "can't be blank"
   end
   it '重複したメールアドレスがあれば無効な状態であること' do
-    user.save
-    overlappedEmailUser = User.new(
-      first_name: "r",
-      last_name: "k",
-      email: user.email,
-      password: "1"
-    )
-    overlappedEmailUser.valid?
-    expect(overlappedEmailUser).not_to be_valid
-    expect(overlappedEmailUser.errors[:email]).to include "has already been taken"
+    overlapped_email_user = FactoryBot.build(:user, email: user.email)
+    overlapped_email_user.valid?
+    expect(overlapped_email_user).not_to be_valid
+    expect(overlapped_email_user.errors[:email]).to include "has already been taken"
   end
   it 'ユーザーのフルネームを文字列として返すこと' do
     expect(user.name).to eq "ryo kawamata"
