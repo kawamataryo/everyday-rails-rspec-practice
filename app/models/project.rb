@@ -5,6 +5,10 @@ class Project < ApplicationRecord
   has_many :notes
   has_many :tasks
 
+  def hello_world
+    "hello delegate projects #{name}"
+  end
+
   def late?
     due_on.in_time_zone < Date.current.in_time_zone
   end
