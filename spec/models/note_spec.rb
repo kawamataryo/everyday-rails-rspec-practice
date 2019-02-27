@@ -14,6 +14,18 @@ RSpec.describe Note, type: :model do
     expect(note).not_to be_valid
   end
 
+  it '名前の取得をメモを作成したユーザーに委譲すること' do
+    user = FactoryBot.create(:user, first_name: "Fake", last_name: "User")
+    note = Note.new(user: user)
+    expect(note.user_name).to eq "Fake User"
+  end
+
+  it 'hello worldのメソッドをメモに委譲すること' do
+    project = FactoryBot.create(:project, name: "Fake")
+    note = Note.new(project: project)
+    expect(note.project_hello_world).to eq "hello delegate projects Fake"
+  end
+
   describe '文字列に一致するメッセージを検索する' do
     let!(:note1) { FactoryBot.create(:note, message: 'this is a pen') }
     let!(:note2) { FactoryBot.create(:note, message: 'this is a cat') }

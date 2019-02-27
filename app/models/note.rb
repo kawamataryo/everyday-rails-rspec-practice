@@ -3,6 +3,7 @@ class Note < ApplicationRecord
   belongs_to :user
 
   delegate :name, to: :user, prefix: true
+  delegate :hello_world, to: :project, prefix: true
 
   validates :message, presence: true
 
